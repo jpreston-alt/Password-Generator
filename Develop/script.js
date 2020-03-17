@@ -16,33 +16,76 @@ function generatePassword() {
     length = prompt("Password length: ");
   }
 
-  // Ask user what they want to include in their password, store answers (true/false) in separate variables (user input variables)
-  var lowercase = confirm("Do you want to include lowercase letters?");
-  var uppercase = confirm("Do you want to include uppercase letters?");
-  var numbers = confirm("Do you want to include numbers?");
-  var special = confirm("Do you want to include special characters?");
+  // Create an object to store user input in separate properties
+  var input = {
+    lowercase : confirm("Do you want to include lowercase letters?"),
+    uppercase : confirm("Do you want to include uppercase letters?"),
+    numbers : confirm("Do you want to include numbers?"),
+    special : confirm("Do you want to include special characters?")
+  };
 
-  // create arrays for lowercase, uppercase, and special characters
-  var lowercaseChoices = "abcdefghijklmnopqrstuvwxyz";
-  var uppercaseChoices = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var numberChoices = "0123456789";
-  var specialChoices = "!'#$%&()*+-/@?/[]{}^";
+  var choices = {
+    lowercase: ["abcdefghijklmnopqrstuvwxyz", ""],
+    uppercase: ["ABCDEFGHIJKLMNOPQRSTUVWXYZ", ""],
+    numbers: ["0123456789", ""],
+    special: ["!'#$%&()*+-/@?/[]{}^", ""]
+  }
 
-  // create number variables using Math.random
-  // use Math.random number variables to choose characters from arrays based on user input variables
+  // declare variables for different set of character choices
+  var incLow, incUp, incNum, incSpec;
+  
 
   // Set conditions for generated password depending on user input variables
-  // Use .push to push items into genPassword empty string
+  if (input.lowercase === true) {
+    incLow = choices.lowercase[0]
+  } else {
+    incLow = choices.lowercase[1];
+  }; 
+
+  if (input.uppercase === true) {
+    incUp = choices.uppercase[0]
+  } else {
+    incUp = choices.uppercase[1];
+  }; 
+
+  if (input.numbers === true) {
+    incNum = choices.numbers[0]
+  } else {
+    incNum = choices.numbers[1];
+  }; 
+
+  if (input.special === true) {
+    incSpec = choices.special[0]
+  } else {
+    incSpec = choices.special[1];
+  }; 
+
+
+  // function inputChecker(input, choices, correctSet) {
+  //   var correctSet;
+  //   if (input === true) {
+  //     correctSet = choices[0]
+  //   } else {
+  //     correctSet = choices[1];
+  //   };
+  // }
+
+  // inputChecker(input.lowercase, choices.lowercase, incLow);
+  // inputChecker(input.uppercase, choices.uppercase, incUp);
+  // inputChecker(input.numbers, choices.numbers, incNum);
+  // inputChecker(input.special, choices.special, incSpec);
 
 
 
+  // create variable that holds all choices together in one string
+  var choicesSet = incLow + incUp + incNum + incSpec;
+  console.log(choicesSet);
 
-  console.lowercaseChoices + uppercaseChoices + numberChoices + specialChoices;
-  console.log(length);
-  console.log(lowercase);
-  console.log(uppercase);
-  console.log(numbers);
-  console.log(special);
+
+  // create number variables using Math.random
+  // use Math.random number variables to choose characters from choicesSet
+
+
 
   return genPassword;
   // return "sometext";
