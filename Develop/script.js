@@ -5,25 +5,27 @@ function generatePassword() {
   // create empty string to store generated password
   var genPassword = "";
 
-  // Prompt user for password length
-  var length = prompt("Password length: ")
-
-  // make sure the user input is between 8 and 128 characters, if so store unput in length variable and if not as again
-  if (length >= 8 && length <= 128) {
-    genPassword.length = length;
-  } else {
-    alert("Password must be at least 8 characters in length");
-    length = prompt("Password length: ");
-  }
-
   // Create an object to store user input in separate properties
   var input = {
     lowercase : confirm("Do you want to include lowercase letters?"),
     uppercase : confirm("Do you want to include uppercase letters?"),
     numbers : confirm("Do you want to include numbers?"),
-    special : confirm("Do you want to include special characters?")
+    special : confirm("Do you want to include special characters?"),
+    length: prompt("Password length: "),
+
+    // Object method to check input length
+    checkLength : function() {
+      if (this.length < 8 || this.length > 128) {
+        alert("Password must be at least 8 characters in length");
+        length = prompt("Password length: ");
+      };
+    }
   };
 
+  // Calls method to check inputed password length
+  input.checkLength();
+
+  // Create an object to store possible character sets
   var choices = {
     lowercase: ["abcdefghijklmnopqrstuvwxyz", ""],
     uppercase: ["ABCDEFGHIJKLMNOPQRSTUVWXYZ", ""],
@@ -31,54 +33,26 @@ function generatePassword() {
     special: ["!'#$%&()*+-/@?/[]{}^", ""]
   }
 
-  // declare variables for different set of character choices
-  var incLow, incUp, incNum, incSpec;
-  
+  // Based on user input, define a function that checks whether each character set should be included in the final set of characters to generate a random password from
+  function inputChecker(input, choices) {
+    var correctSet;
+    if (input === true) {
+      addToSet = choices[0]
+    } else {
+      addToSet = choices[1];
+    };
+    // Return which set of characters the user input asked to include: string of characters if true, empty string if false
+    return addToSet;
+  };
 
-  // Set conditions for generated password depending on user input variables
-  if (input.lowercase === true) {
-    incLow = choices.lowercase[0]
-  } else {
-    incLow = choices.lowercase[1];
-  }; 
+  // Call function on each set of characters, save output to variable
+  var lowercaseSet = inputChecker(input.lowercase, choices.lowercase);
+  var uppercaseSet = inputChecker(input.uppercase, choices.uppercase);
+  var numberSet = inputChecker(input.numbers, choices.numbers);
+  var specialSet = inputChecker(input.special, choices.special);
 
-  if (input.uppercase === true) {
-    incUp = choices.uppercase[0]
-  } else {
-    incUp = choices.uppercase[1];
-  }; 
-
-  if (input.numbers === true) {
-    incNum = choices.numbers[0]
-  } else {
-    incNum = choices.numbers[1];
-  }; 
-
-  if (input.special === true) {
-    incSpec = choices.special[0]
-  } else {
-    incSpec = choices.special[1];
-  }; 
-
-
-  // function inputChecker(input, choices, correctSet) {
-  //   var correctSet;
-  //   if (input === true) {
-  //     correctSet = choices[0]
-  //   } else {
-  //     correctSet = choices[1];
-  //   };
-  // }
-
-  // inputChecker(input.lowercase, choices.lowercase, incLow);
-  // inputChecker(input.uppercase, choices.uppercase, incUp);
-  // inputChecker(input.numbers, choices.numbers, incNum);
-  // inputChecker(input.special, choices.special, incSpec);
-
-
-
-  // create variable that holds all choices together in one string
-  var choicesSet = incLow + incUp + incNum + incSpec;
+  // create variable that holds all character choices together in one string
+  var choicesSet = lowercaseSet + uppercaseSet + numberSet + specialSet;
   console.log(choicesSet);
 
 
