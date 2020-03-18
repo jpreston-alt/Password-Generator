@@ -5,23 +5,23 @@ function generatePassword() {
   // Create an object to store user input in seperate properties
   var input = {
     length: prompt("Password length: "),
-    lowercase : confirm("Do you want to include lowercase letters?"),
-    uppercase : confirm("Do you want to include uppercase letters?"),
-    numbers : confirm("Do you want to include numbers?"),
-    special : confirm("Do you want to include special characters?"),
+    lowercase: confirm("Do you want to include lowercase letters?"),
+    uppercase: confirm("Do you want to include uppercase letters?"),
+    numbers: confirm("Do you want to include numbers?"),
+    special: confirm("Do you want to include special characters?"),
 
-    // Object method to check input length
-    checkLength : function() {
+    // Object method to check if length is valid
+    checkLength: function() {
       if (this.length < 8 || this.length > 128) {
-        alert("Password must be at least 8 characters in length");
+        alert("Password must be at least 8 characters in length, and no more than 128 characters in length.");
         this.length = prompt("Password length: ");
       };
     },
 
     // Object method to check that user selected at least one character type
-    checkForInput : function () {
+    checkForInput: function () {
       if (this.lowercase === false && this.uppercase === false && this.numbers === false && this.special === false) {
-        alert("You must choose at least 1 criteria");
+        alert("You must select at least 1 criteria");
         this.lowercase = confirm("Do you want to include lowercase letters?");
         this.uppercase = confirm("Do you want to include uppercase letters?");
         this.numbers = confirm("Do you want to include numbers?");
@@ -30,58 +30,51 @@ function generatePassword() {
     }
   };
 
-  // Calls method to check inputed password length
+  // Calls method to check valid password length
   input.checkLength();
 
   // Calls method to check if user chose any criteria
   input.checkForInput();
 
-  // Create an object to store possible character sets based on user input
-  var choices = {
+  // Create an object to store character sets
+  var characterSet = {
     lowercase: ["abcdefghijklmnopqrstuvwxyz", null],
     uppercase: ["ABCDEFGHIJKLMNOPQRSTUVWXYZ", null],
     numbers: ["0123456789", null],
     special: ["!'#$%&()*+-_/@?/[]{}^.,|:;", null]
-  }
-
-  // Defines a function that checks which character sets (choices) should be included in password based on user input
-  function inputChecker(input, choices) {
-    if (input === true) {
-      // if user wants these characters included
-      addToSet = choices[0]
-    } else {
-      // if user does not want these characters included
-      addToSet = choices[1];
-    };
-    // Returns which set of characters should be included in password
-    return addToSet;
   };
 
-  // Calls function on each set of characters, save output to variable
-  var lowercaseSet = inputChecker(input.lowercase, choices.lowercase);
-  var uppercaseSet = inputChecker(input.uppercase, choices.uppercase);
-  var numberSet = inputChecker(input.numbers, choices.numbers);
-  var specialSet = inputChecker(input.special, choices.special);
+  // Defines a function that decides if a character set should be included in password based on user input. Returns character set string if true, returns null if false (won't be included in password).
+  function inputChecker(input, characterSet) {
+    if (input === true) {
+      include = characterSet[0]
+    } else {
+      include = characterSet[1];
+    };
+    return include;
+  };
+
+  // Calls function on each set of characters, saves output to variable
+  var lowercaseSet = inputChecker(input.lowercase, characterSet.lowercase);
+  var uppercaseSet = inputChecker(input.uppercase, characterSet.uppercase);
+  var numberSet = inputChecker(input.numbers, characterSet.numbers);
+  var specialSet = inputChecker(input.special, characterSet.special);
 
 
-  // Create a function that randomly generates password 
+  // Defines a function that randomly generates characters from full character set until desired string length is reached, returns randomly generated password.
   function genPassword(length) {
-    var result = "";
-    // Creates variable to bring together all included character sets into one string (they could either contain characters or be null)
-    var choicesSet = lowercaseSet + uppercaseSet + numberSet + specialSet;
-    // Creates a loop that generates random character in a string until the desired string length is reached
+    var password = "";
+    // fullSet comprised of each character set (will be null if user did not want to include)
+    var fullSet = lowercaseSet + uppercaseSet + numberSet + specialSet;
     for (var i = 0; i < length; i++) {
-      result += choicesSet[Math.floor(Math.random() * choicesSet.length)];
+      password += fullSet[Math.floor(Math.random() * fullSet.length)];
     }
-    // Returns randomly generated password
-    return result;
+    return password;
   };
 
   // Returns the outputed value of genPassword with the user input length passed in as an argument
   return genPassword(input.length);
 };
-
-
 
 //////////////////////////////////////////////////////////////
 // DO NOT TOUCH THE CODE BELOW
