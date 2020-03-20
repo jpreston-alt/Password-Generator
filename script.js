@@ -15,6 +15,7 @@ function generatePassword() {
       if (this.length < 8 || this.length > 128) {
         alert("Password must be at least 8 characters in length, and no more than 128 characters in length.");
         this.length = prompt("Password length: ");
+        this.checkLength();
       };
     },
 
@@ -26,6 +27,7 @@ function generatePassword() {
         this.uppercase = confirm("Do you want to include uppercase letters?");
         this.numbers = confirm("Do you want to include numbers?");
         this.special = confirm("Do you want to include special characters?");
+        this.checkForInput();
       }
     }
   };
