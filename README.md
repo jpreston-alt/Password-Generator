@@ -14,3 +14,7 @@ This project taught me a lot about working with JavaScript, and understanding th
 
 Click the "Generate Password" button to get started!
 
+## Deployed Site:
+
+https://jpreston-alt.github.io/Password-Generator/
+
